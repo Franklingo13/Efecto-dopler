@@ -14,8 +14,8 @@ void loop()
 {
 val = analogRead(analogPin); // read the input pin
 
-if(val > 180) digitalWrite(13,HIGH);   //LED on if signal detected higher than 180
-   else digitalWrite(13,LOW);
+//if(val > 180) digitalWrite(13,HIGH);   //LED on if signal detected higher than 180
+//   else digitalWrite(13,LOW);
 
 Serial.println(val); // debug value
 
