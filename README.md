@@ -3,6 +3,7 @@
 Para este proyecto se emplea el efecto Doppler para calcular la velocidad de un objeto en base a la diferencia de frecuencias entre la enviada y la recibida.
 El dispositivo empleado como transmisor y receptor es el sensor de movimiento CDM324, el cual funciona a una frecuecia de 24GHz. Este sensor también incorpora un mezclador de altas frecuencias y su salida es de unos pocos milivoltios, razón por la cual debe ser amplificada.
 
+Se basó en el siguiente trabajo: https://github.com/limpkin/cdm324_backpack.
 
 
 
