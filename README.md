@@ -9,7 +9,7 @@ El dispositivo empleado como transmisor y receptor es el sensor de movimiento CD
 
 ## _Primera Versión_
 - Usa arduino Mega.
-- Calcula la frecuencia recibida mediante FFT y usando la función _pilsein_.
+- Calcula la frecuencia recibida mediante usando la función _pulsein_.
 - Presenta la velocidad en una pequeña pantalla OLED
 
 
@@ -39,19 +39,23 @@ Las piezas para el soporte impreso en 3D mostrado a continuación se encuentran 
 
 ## _Segunda versión_
 - Usa un ESP32.
-- Calcula la frecuencia recibida mediante FFT y usando la función _pilsein_.
+- Calcula la frecuencia recibida mediante FFT.
 - Presenta la velocidad en una pequeña pantalla OLED
 - Envia los datos a un servicio en la nube para poder revisar la velocidad desde cualquier dispositivo con acceso a internet.
 
 
 ### Amplificador 
 
-<img alt="Esquema de la segunda versión del amplificador" src="/Imágenes/esquema_amplificador_ESP32"/>
+<img alt="Esquema de la segunda versión del amplificador" src="/Imágenes/esquema_amplificador_ESP32.png"/>
 
 ### Código arduino
 
-Para encontrar la velocidad se calcula la FFT de la señal recibida empleando la librería arduinoFFT.h 
+Para encontrar la velocidad se calcula la FFT de la señal recibida empleando la librería arduinoFFT.h, además de presentar los datos en una pantalla OLED, también los envía al servicio en la nube de Thinger.io.  El código para implementar este método está en _Codigo arduino/final_esp32_FFT_ .
+
 
 ### Placa PCB
 
+
 ### Soporte 3D
+
+Las piezas de la segunda versión del soporte se encuentran en la carpeta _Piezas radar final_ESP32_.
