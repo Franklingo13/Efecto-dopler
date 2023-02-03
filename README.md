@@ -47,6 +47,8 @@ Las piezas para el soporte impreso en 3D mostrado a continuación se encuentran 
 
 ### Amplificador 
 
+El esquema del amplificador y sus conexiones con el ESP32 se muestran a continuación.
+
 <img alt="Esquema de la segunda versión del amplificador" src="/Imágenes/esquema_amplificador_ESP32.png"/>
 
 ### Código arduino
@@ -55,8 +57,11 @@ Para encontrar la velocidad se calcula la FFT de la señal recibida empleando la
 
 
 ### Placa PCB
-
+La versión final de la placa PCB se muestra a continuación y sus archivos Gerber están en la carpeta de _Esquemáticos_
+<img alt="segunda versión de placa PCB" src="/Imágenes/diseño_pcb.png"/>
 
 ### Soporte 3D
 
 Las piezas de la segunda versión del soporte se encuentran en la carpeta _Piezas radar final_ESP32_.
+
+<img alt="Segunda versión del soporte" src="/Imágenes/radar_armado.jpeg"/>
