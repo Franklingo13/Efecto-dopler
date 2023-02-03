@@ -4,7 +4,6 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "arduinoFFT.h"
-//#include "ThingSpeak.h"
 #include "WiFi.h"
 #include <ThingerESP32.h>
 
@@ -15,7 +14,7 @@ These values can be changed in order to evaluate the functions
 
 /* FOR FFT */
 #define CHANNEL 35
-// PANTALLA OLED 
+// PANTALLA OLED
 #define ANCHO 128
 #define ALTO 64
 /* THING.IO */
@@ -49,24 +48,24 @@ float vel;
 #define SCL_TIME 0x01
 #define SCL_FREQUENCY 0x02
 #define SCL_PLOT 0x03
-#define OLED_RESET -1 
+#define OLED_RESET -1
 Adafruit_SSD1306 oled(ANCHO,ALTO, &Wire, OLED_RESET);
 
 
 // INICIALIZAR WIFI
 const char* SSID = "POCOX3";
-const char* SSID_PASWORD = "pocox5597"; 
+const char* SSID_PASWORD = "pocox5597";
 
 unsigned long channelId = 1915797;
 const char* WriteAPIKey = "Z2WF768I7D3PWMIK";
 
 
 
-/* thing.io */ 
+/* thing.io */
 
 float yaw = 0; // defined as a global variable for thing.io
 
-WiFiClient Client; 
+WiFiClient Client;
 
 void setup()
 {
@@ -74,21 +73,21 @@ void setup()
   Serial.begin(115200);
   while(!Serial);
   Serial.println("Ready");
-//INICIAR CONEXION WIFI // 
+//INICIAR CONEXION WIFI //
 
 
 
-  WiFi.begin(SSID,SSID_PASWORD); 
+  WiFi.begin(SSID,SSID_PASWORD);
 
-  
+
   while (WiFi.status() != WL_CONNECTED){
     delay(500);
     Serial.print("Conectando...");
-    
+
    }
    Serial.print("Conectado");
-   
-   
+
+
   /* INICIAR OLED */
   Wire.begin();
   oled.begin(SSD1306_SWITCHCAPVCC,0x3C);
@@ -113,7 +112,7 @@ void loop()
 
 
 
-  
+
   for(int i=0; i<samples; i++)
   {
       vReal[i] = analogRead(CHANNEL);
@@ -123,50 +122,43 @@ void loop()
       }
       microseconds += sampling_period_us;
   }
-  
 
-  
+
+
   //Serial.println("Data:");
 //  PrintVector(vReal, samples, SCL_TIME);
-  FFT.Windowing(vReal, samples, FFT_WIN_TYP_HAMMING, FFT_FORWARD);  
+  FFT.Windowing(vReal, samples, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
   //Serial.println("Weighed data:");
  // PrintVector(vReal, samples, SCL_TIME);
-  FFT.Compute(vReal, vImag, samples, FFT_FORWARD); 
+  FFT.Compute(vReal, vImag, samples, FFT_FORWARD);
   //Serial.println("Computed Real values:");
  // PrintVector(vReal, samples, SCL_INDEX);
   //Serial.println("Computed Imaginary values:");
  // PrintVector(vImag, samples, SCL_INDEX);
-  FFT.ComplexToMagnitude(vReal, vImag, samples); 
+  FFT.ComplexToMagnitude(vReal, vImag, samples);
   //Serial.println("Computed magnitudes:");
 //  PrintVector(vReal, (samples >> 1), SCL_FREQUENCY);
 
-  
-  double x = FFT.MajorPeak(vReal, samples, samplingFrequency); 
+
+  double x = FFT.MajorPeak(vReal, samples, samplingFrequency);
   Serial.println("");
   Serial.println(x, 6); //Print out what frequency is the most dominant.
   fd=x;
   vel=fd/44;
   Serial.print(fd/44);Serial.print("km/h");
-  
-  
-  // ENVIAR A LA NUBE 
-  /*
-    ThingSpeak.setField(1,vel);  
-    ThingSpeak.writeFields(channelId,WriteAPIKey);
-    Serial.println("Datos enviados a la nube");
-    delay(14000);
-  */
 
 
-  // THING.IO // 
+
+
+  // THING.IO //
       //PARAMETROS PARA PLATAFORMA IOT
-  yaw = vel; 
+  yaw = vel;
   thing["tempC"] >> [](pson& out){
       out = yaw;
   };
 // thing.handle();
 
-  
+
   //IMPRIMIR VALORES EN OLED//
       oled.clearDisplay();
       oled.setTextColor(WHITE); //NO MULTIPLES COLORES
@@ -177,41 +169,12 @@ void loop()
       oled.setTextSize(2);   //TAMAÑO DE TEXTO
       oled.print(vel);
       oled.print(" Km/h");
-      oled.display();  
+      oled.display();
 
 
 
 
-  
+
   //while(1); /* Run Once */
   delay(1000); /* Repeat after delay */
 }
-
-  
-/*
-void PrintVector(double *vData, uint16_t bufferSize, uint8_t scaleType)
-{
-  for (uint16_t i = 0; i < bufferSize; i++)
-  {
-    double abscissa;
-    
-    switch (scaleType)
-    {
-      case SCL_INDEX:
-        abscissa = (i * 1.0);
-  break;
-      case SCL_TIME:
-        abscissa = ((i * 1.0) / samplingFrequency);
-  break;
-      case SCL_FREQUENCY:
-        abscissa = ((i * 1.0 * samplingFrequency) / samples);
-  break;
-    }
-    //Serial.println(abscissa, 6);
-    if(scaleType==SCL_FREQUENCY)
-    //Serial.println("Hz");
-    Serial.print(" ");
-   // Serial.println(vData[i], 4);
-  }
-} 
-*/
